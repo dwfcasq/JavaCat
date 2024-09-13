@@ -1,0 +1,13 @@
+XXE审计:Digester,SAXReader,DocumentBuilderFactory,DocumentBuilder,XMLStreamReader,SAXBuilder,SAXParser,XMLReader,SAXSource,TransformerFactory,SchemaFactory,Unmarshaller,XPathExpression,Validator,SAXTransformerFactory
+反序列化:Yaml.load,readObject(,XMLDecoder,ObjectInputStream.,.readUnshared,.fromXML,ObjectMapper.readValue,.parseObject,.parse(
+SSRF:SimpleDriverDataSource,DriverManager,openConnection,openStream(),HttpClient,executeMethod(),.connect(,HttpURLConnection,BasicHttpEntityEnclosingRequest,DefaultBHttpClientConnection,BasicHttpRequest,HttpURLConnection,ImageIO.read,URL(,URLConnection,ClientHttpRequest,.postForObject,HttpRequest.get,HttpRequest.post,Jsoup.connect,getForObject,postForObject,HttpClients.createDefault,httpasyncclient,HttpAsyncClients,openConnection,HttpURLConnection,openStream,Socket,okhttp,OkHttpClient,newCall,ImageIO.read,jsoup,Jsoup.connect,RestTemplate
+文件上传:MultipartFile,lastIndexOf(,ZipInputStream,getSize(,ZipEntry,createNewFile,FileInputStream(,upload,File,path,fileName,FileOutputStream(,FileReader,response.setContentType,delete(,FileUtils.,ZipEntity(,getPath,getAbsolutePath,ServletFileUpload,getName(,.unzip(,.mkdirs(,.write(,save2File(,fos,fis.close(),ZipUtil,createNewFile,getOriginalFilename(,上传
+文件删除:delete(,deleteIfExists(,walkFileTree(,move(,forceDelete(,cleanDirectory(
+逻辑:.getParameter(,getRequestURI(,startsWith,getRequestURL
+硬编码:pass,pwd,key,accessKeyId,accesskey,accessid
+安全配置:Swagger,Druid,actuator
+不安全的反射:Class.forName,.invoke,.newInstance,Worker,Invoker
+URL跳转:sendRedirect,forward,setHeader,returnUrl,returnPath,sendRedirect,forword,redirect:
+命令执行:cmd,command,ProcessBuilder,Runtime,.exec,ScriptEngineManager,Yaml(),GroovyShell,logger.
+SQL注入:${,executeQuery,prepareStatement,createQuery,Statement,@Select,@Update,@Delete,@Insert,append(,like,order by,group by,@SelectProvider,@InsertProvider,@UpdateProvider,@DeleteProvider,+,%,like
+其他漏洞:InitialContext,ModelAndView,.printStackTrace

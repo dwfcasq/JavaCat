@@ -1,0 +1,30 @@
+[+] 文件路径: D:\JavaPro\latticy\src\main\java\io\github\talelin\latticy\model\FileDO.java
+[-] 总行数: 1
+[*] 漏洞类型: 文件上传
+[/] 匹配的关键字: File
+[=] Line 17: public class FileDO extends BaseModel implements Serializable {
+
+[+] 文件路径: D:\JavaPro\latticy\src\main\java\io\github\talelin\latticy\model\FileDO.java
+[-] 总行数: 1
+[*] 漏洞类型: 文件上传
+[/] 匹配的关键字: path
+[=] Line 21:     private String path;
+
+[+] 文件路径: D:\JavaPro\latticy\src\main\java\io\github\talelin\latticy\model\FileDO.java
+[-] 总行数: 1
+[*] 漏洞类型: 文件上传
+[/] 匹配的关键字: 上传
+[=] Line 35:      * md5值，防止上传重复文件
+
+[+] 文件路径: D:\JavaPro\latticy\src\main\java\io\github\talelin\latticy\model\LogDO.java
+[-] 总行数: 1
+[*] 漏洞类型: 文件上传
+[/] 匹配的关键字: path
+[=] Line 37:     private String path;
+
+[+] 文件路径: D:\JavaPro\latticy\src\main\java\io\github\talelin\latticy\model\UserIdentityDO.java
+[-] 总行数: 1
+[*] 漏洞类型: 硬编码
+[/] 匹配的关键字: pass
+[=] Line 28:      * 认证类型，例如 username_password，用户名-密码认证
+
