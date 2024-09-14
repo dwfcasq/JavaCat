@@ -1,9 +1,6 @@
 package org.jcat;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class javacat {
 
@@ -55,10 +52,10 @@ public class javacat {
 
     public static void writeToFile(String outputFilePath, String filePath, List<String> matchingLines,String key,String content) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath, true))) {
-            writer.write("[+] 文件路径: " + filePath + "\n");
-            writer.write("[-] 总行数: " + matchingLines.size() + "\n");
-            writer.write("[*] 漏洞类型: " + key+ "\n");
-            writer.write("[/] 匹配的关键字: " + content+ "\n");
+            writer.write("[+] 路径: " + filePath + "\n");
+            writer.write("[-] 总行: " + matchingLines.size() + "\n");
+            writer.write("[*] 类型: " + key+ "\n");
+            writer.write("[/] 关键字: " + content+ "\n");
             for (String line : matchingLines) {
                 writer.write("[=] " + line + "\n");
             }
@@ -95,25 +92,32 @@ public class javacat {
     }
 
     public static void main(String[] args) throws Exception {
-        System.out.println("identify danger function running...");
-        String kwPath = "src/main/java/org/jcat/keywords.txt"; // 关键词路径
-        String outfile="src/main/java/org/jcat/re.txt";// 指定输出的路径
-        clearFile(outfile);//每次运行会清空运行结果
-        String directory = "D:\\JavaPro\\latticy"; //指定要搜索的目录
+        System.out.println("\u001B[32midentify danger function running...\u001B[0m");
+        String kwPath = "src/main/java/org/jcat/keywords"; // 关键词路径
+        String outfile="src/main/java/org/jcat/re.txt";// 提前创建该文件，并指定输出的路径
+        String directory = "F:\\JavaPro\\spring-boot-admin\\src\\main\\java\\com\\dmc\\service"; //指定要搜索的目录
+        List<String> excludedExtensions = Arrays.asList(".exe",".tmp",".log",".md",".sql",".class",".xml",".js",".jpg",".gitignore");// 可以继续添加其他排除的后缀
+        clearFile(outfile);//每次运行会清空上次运行结果
         HashMap<String, String[]> hashMap=readkwFile(kwPath);
         List<String> foundFiles = searchFiles(directory);
+
         for (String filePath : foundFiles) {  //每一个绝对路径
-            for (Map.Entry<String, String[]> entry : hashMap.entrySet()) {
-                String Key=entry.getKey();
-                String[] contents=entry.getValue();
-                for (String content:contents){ //每一个关键字数组
-                    List<String> foundLines = searchContent(filePath, content);
-                    if (foundLines.size()>0){
-                        writeToFile(outfile,filePath,foundLines,Key,content);
-                    }
+            // 判断文件路径是否以排除的后缀结尾
+            boolean isExcluded = excludedExtensions.stream().anyMatch(filePath::endsWith);
+            if (!isExcluded) {
+                for (Map.Entry<String, String[]> entry : hashMap.entrySet()) {
+                    String Key=entry.getKey();
+                    String[] contents=entry.getValue();
+                    for (String content:contents){ //每一个关键字数组
+                        List<String> foundLines = searchContent(filePath, content);
+                        if (foundLines.size()>0){
+                            writeToFile(outfile,filePath,foundLines,Key,content);
+                        }
+                     }
                  }
-             }
+            }else {
+                System.out.println("排除后缀不处理:" + filePath);
+            }
         }
-        System.out.println("identify danger function Finished!至"+outfile+"查看结果");
-    }
-}
+        System.out.println("\u001B[32midentify danger function Finished!查看结果在:"+outfile+"\u001B[0m");
+}}
