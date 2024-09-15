@@ -93,7 +93,7 @@ public class javacat {
 
     public static void main(String[] args) throws Exception {
         System.out.println("\u001B[32midentify danger function running...\u001B[0m");
-        String kwPath = "src/main/java/org/jcat/keywords"; // 关键词路径
+        String kwPath = "src/main/java/org/jcat/keywords.txt"; // 关键词路径
         String outfile="src/main/java/org/jcat/re.txt";// 提前创建该文件，并指定输出的路径
         String directory = "F:\\JavaPro\\spring-boot-admin\\src\\main\\java\\com\\dmc\\service"; //指定要搜索的目录
         List<String> excludedExtensions = Arrays.asList(".exe",".tmp",".log",".md",".sql",".class",".xml",".js",".jpg",".gitignore");// 可以继续添加其他排除的后缀
