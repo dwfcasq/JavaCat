@@ -6,14 +6,14 @@ public class javacat {
 
     //在指定的目录下搜索所有文件
     public static List<String> searchFiles(String directory) {
-        //初始化一个 ArrayList 来存储文件路径
+        //ArrayList来存储文件路径
         List<String> files = new ArrayList<>();
         File dir = new File(directory);
         //确保传入的目录路径是有效的目录。
         if (dir.isDirectory()) {
             searchFilesRecursive(dir,files);
         }
-        //返回包含所有符合条件文件路径的列表
+        //返回包含所有文件路径的列表
         return files;
     }
 
@@ -52,10 +52,10 @@ public class javacat {
 
     public static void writeToFile(String outputFilePath, String filePath, List<String> matchingLines,String key,String content) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath, true))) {
-            writer.write("[+] 路径: " + filePath + "\n");
-            writer.write("[-] 总行: " + matchingLines.size() + "\n");
-            writer.write("[*] 类型: " + key+ "\n");
-            writer.write("[/] 关键字: " + content+ "\n");
+            writer.write("[+] 文件路径: " + filePath + "\n");
+            writer.write("[-] 总行数: " + matchingLines.size() + "\n");
+            writer.write("[*] 漏洞类型: " + key+ "\n");
+            writer.write("[/] 匹配的关键字: " + content+ "\n");
             for (String line : matchingLines) {
                 writer.write("[=] " + line + "\n");
             }
@@ -94,17 +94,24 @@ public class javacat {
     public static void main(String[] args) throws Exception {
         System.out.println("\u001B[32midentify danger function running...\u001B[0m");
         String kwPath = "src/main/java/org/jcat/keywords.txt"; // 关键词路径
-        String outfile="src/main/java/org/jcat/re.txt";// 提前创建该文件，并指定输出的路径
-        String directory = "F:\\JavaPro\\spring-boot-admin\\src\\main\\java\\com\\dmc\\service"; //指定要搜索的目录
-        List<String> excludedExtensions = Arrays.asList(".exe",".tmp",".log",".md",".sql",".class",".xml",".js",".jpg",".gitignore");// 可以继续添加其他排除的后缀
-        clearFile(outfile);//每次运行会清空上次运行结果
-        HashMap<String, String[]> hashMap=readkwFile(kwPath);
-        List<String> foundFiles = searchFiles(directory);
+        String outfile="src/main/java/org/jcat/re.txt";// 提前创建该文件，这是结果输出的路径
+        String directory = "F:\\JavaPro\\ManageBooks\\src\\main"; //指定要搜索的目录
+        // 可以继续添加其他排除的后缀
+        List<String> excludedExtensions = Arrays.asList(".exe",".css",".html",".png",".tmp",".log",".md",".sql",".class",".xml",".js",".jpg",".gitignore");
 
+        clearFile(outfile);//每次运行会清空上次运行结果
+        List<String> foundFiles = searchFiles(directory);
+        HashMap<String, String[]> hashMap=readkwFile(kwPath);
+        if (foundFiles.size()==0){
+            System.out.println("\u001B[36m请输入有效目录\u001B[36m");
+            System.exit(0); // 正常退出
+        }
         for (String filePath : foundFiles) {  //每一个绝对路径
             // 判断文件路径是否以排除的后缀结尾
             boolean isExcluded = excludedExtensions.stream().anyMatch(filePath::endsWith);
-            if (!isExcluded) {
+            if (isExcluded) {
+                System.out.println("排除后缀不处理:" + filePath);
+            }else {
                 for (Map.Entry<String, String[]> entry : hashMap.entrySet()) {
                     String Key=entry.getKey();
                     String[] contents=entry.getValue();
@@ -113,10 +120,8 @@ public class javacat {
                         if (foundLines.size()>0){
                             writeToFile(outfile,filePath,foundLines,Key,content);
                         }
-                     }
-                 }
-            }else {
-                System.out.println("排除后缀不处理:" + filePath);
+                    }
+                }
             }
         }
         System.out.println("\u001B[32midentify danger function Finished!查看结果在:"+outfile+"\u001B[0m");
