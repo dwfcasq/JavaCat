@@ -125,4 +125,5 @@ public class javacat {
             }
         }
         System.out.println("\u001B[32midentify danger function Finished!查看结果在:"+outfile+"\u001B[0m");
-}}
+}
+}
